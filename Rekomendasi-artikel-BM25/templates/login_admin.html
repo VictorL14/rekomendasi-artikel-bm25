@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        p {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                padding: 8px;
+            }
+
+            input[type="submit"] {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <form method="post">
+            {{ form_admin.hidden_tag() }}
+            <p>
+                {{ form_admin.nama_admin.label }}<br>
+                {{ form_admin.nama_admin(size=32) }}
+            </p>
+            <p>
+                {{ form_admin.password_admin.label }}<br>
+                {{ form_admin.password_admin(size=32) }}
+            </p>
+            <p>{{ form_admin.submit_admin() }}</p>
+        </form>
+    </div>
+</body>
+</html>

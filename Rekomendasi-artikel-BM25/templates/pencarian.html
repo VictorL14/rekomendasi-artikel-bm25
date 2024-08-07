@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Scholar Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #333;
+            overflow: auto;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+            align-items: center;
+        }
+
+        .navbar a,
+        .navbar form button {
+            float: left;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 17px;
+            background-color: #333;
+            border: none;
+            cursor: pointer;
+        }
+
+        .navbar a:hover,
+        .navbar form button:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 80px auto 20px auto;
+            text-align: center;
+        }
+
+        .search-input {
+            width: 80%;
+            max-width: 700px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search-button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+
+        .search-results {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .result-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .like-button {
+            background-color: #cbd2d9;
+            color: #9aa5b1;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .like-button.liked {
+            background-color: #0967d2;
+            color: #cbd2d9;
+        }
+        
+        .like-button .like-icon {
+            margin-right: 5px;
+        }
+
+        @media (max-width: 480px) {
+            .search-input {
+                width: 100%;
+            }
+
+            .result-item {
+                width: 90%;
+            }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+
+        .pagination .page-item .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination .page-item .page-link:hover {
+            color: #0056b3;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+    </style>
+    <script>
+        function toggleAbstract(index) {
+            const shortAbstract = document.getElementById(`abstract-short-${index}`);
+            const fullAbstract = document.getElementById(`abstract-full-${index}`);
+            const readMore = document.getElementById(`read-more-${index}`);
+
+            if (shortAbstract.style.display === "none") {
+                shortAbstract.style.display = "inline";
+                fullAbstract.style.display = "none";
+                readMore.textContent = "Selengkapnya";
+            } else {
+                shortAbstract.style.display = "none";
+                fullAbstract.style.display = "inline";
+                readMore.textContent = "Tampilkan Lebih Sedikit";
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="container navbar-container">
+            <div>
+                <a href="{{ url_for('.homepage') }}">Home</a>
+            </div>
+            <div>
+                <form action="/logout" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <form action="{{ url_for('search_articles') }}" method="post">
+            <input type="text" name="query" placeholder="Masukkan kueri pencarian" class="search-input" required>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+
+    <div class="search-results">
+        <h1 style="text-align: center;">Hasil Pencarian Artikel</h1>
+        <h4 style="text-align: center;">Kueri Hasil Pre-Processing: {{kueri_hasil}}</h4>
+        {% for artikel in hasil %}
+        <div class="result-item">
+            <h3 class="title">{{ artikel.judul_awal }}</h3>
+            <p class="authors"><strong>Penulis:</strong> {{ artikel.nama_penulis }}</p>
+            <span class="abstract-short" id="abstract-short-{{ loop.index }}">{{ artikel.abstrak[:80] }}...</span>
+            <span class="abstract-full" id="abstract-full-{{ loop.index }}" style="display: none;">{{ artikel.abstrak }}</span>
+            <a href="javascript:void(0);" id="read-more-{{ loop.index }}" onclick="toggleAbstract({{ loop.index }})">selengkapnya...</a>
+            <p class="tahun">Tahun: {{ artikel.tahun}}</p>
+            <a href="{{ artikel.download_link }}">Unduh</a>
+        </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if pagination.page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('search_articles', query=query, page=pagination.page - 1) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo; Previous</span>
+                    </a>
+                </li>
+                {% endif %}
+        
+                {% if pagination.page > 2 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('search_articles', query=query, page=1) }}">1</a>
+                </li>
+                {% if pagination.page > 3 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                {% endif %}
+                {% endif %}
+        
+                {% for p in range(max(1, pagination.page - 1), min(pagination.page + 2, pagination.total_pages + 1)) %}
+                <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('search_articles', query=query, page=p) }}">{{ p }}</a>
+                </li>
+                {% endfor %}
+        
+                {% if pagination.page < pagination.total_pages - 1 %}
+                {% if pagination.page < pagination.total_pages - 2 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('search_articles', query=query, page=pagination.total_pages) }}">{{ pagination.total_pages }}</a>
+                </li>
+                {% endif %}
+        
+                {% if pagination.page < pagination.total_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('search_articles', query=query, page=pagination.page + 1) }}" aria-label="Next">
+                        <span aria-hidden="true">Next &raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

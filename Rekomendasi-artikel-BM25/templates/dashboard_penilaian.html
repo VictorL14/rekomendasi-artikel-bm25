@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Penilaian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ecf0f1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .navbar .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .navbar .navbar-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar {
+            width: 210px;
+            background-color: #2c3e50;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+        }
+
+        .sidebar .sidebar-brand {
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .sidebar .sidebar-nav a {
+            padding: 10px 15px;
+        }
+
+        .sidebar .active {
+            background-color: #34495e;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f8f8f8;
+        }
+
+        .btn-warning, .btn-danger {
+            padding: 5px 10px;
+            cursor: pointer;
+            color: white;
+            border: none;
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">E-Student</div>
+        <div class="navbar-toggle" id="navbar-toggle">☰</div>
+        <div class="navbar-menu">
+            <form action="/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="sidebar-brand">Rekomendasi Cerdas BM25</a>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('dashboard_admin') }}"><span class="icon">🏠</span> Dashboard</a>
+            <a href="{{ url_for('dashboard_pengguna') }}"><span class="icon">👥</span> Pengguna</a>
+            <a href="{{ url_for('dashboard_penilaian') }}" class="active"><span class="icon">🏢</span> Penilaian</a>
+            <a href="{{ url_for('dashboard_artikel') }}"><span class="icon">📚</span> Artikel</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h1>Manajemen Penilaian</h1>
+            <table class="table penilaian-table">
+                <thead>
+                    <tr>
+                        <th>NPM</th>
+                        <th>Nama</th>
+                        <th>k1</th>
+                        <th>b</th>
+                        <th>K</th>
+                        <th>Nilai Judul</th>
+                        <th>Nilai Abstrak</th>
+                        <th>Nilai Gabungan</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session_data in penilaian_data %}
+                    <tr>
+                        <td>{{ session_data['penilaian']['npm'] }}</td>
+                        <td>{{ session_data['penilaian']['nama'] }}</td>
+                        <td>{{ session_data['penilaian']['k1'] }}</td>
+                        <td>{{ session_data['penilaian']['b'] }}</td>
+                        <td>{{ session_data['penilaian']['n'] }}</td>
+                        <td>{{ session_data['penilaian']['nilai_judul'] }}</td>
+                        <td>{{ session_data['penilaian']['nilai_abstrak'] }}</td>
+                        <td>{{ session_data['penilaian']['nilai_gabungan'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('navbar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

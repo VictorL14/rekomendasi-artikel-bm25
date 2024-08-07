@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+</head>
+<body>
+    <h1>Reset Password</h1>
+    <form method="POST" action="{{ url_for('reset_password') }}">
+        {{ form.hidden_tag() }}
+
+        <div>
+            <label for="nama">Nama:</label><br>
+            {{ form.nama(size=32) }}<br>
+            {% for error in form.nama.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="npm">NPM:</label><br>
+            {{ form.npm(size=32) }}<br>
+            {% for error in form.npm.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="password">Password Baru:</label><br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="password_confirm">Konfirmasi Password Baru:</label><br>
+            {{ form.password_confirm(size=32) }}<br>
+            {% for error in form.password_confirm.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+
+        <div>
+            <input type="submit" value="Reset Password">
+        </div>
+    </form>
+</body>
+</html>

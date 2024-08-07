@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Admin</title>
+</head>
+<body>
+    <h2>Signup Admin</h2>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.nama.label }}<br>
+            {{ form.nama(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>

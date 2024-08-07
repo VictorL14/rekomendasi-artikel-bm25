@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Rekomendasi Page</title>
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="/static/landing_page.css">
+  </head>
+  <body>
+
+
+    
+
+    <div class="navbar">
+      <div class="container navbar-container">
+          <!-- Logo di sebelah kiri navbar -->
+          <div>
+              <a href="#"><img src="/static/school_book.png" alt="Logo" style="width: 50px;"></a>
+          </div>
+          <!-- Item navbar di sebelah kanan -->
+          <div class="ml-auto">
+            <a href="{{ url_for('about') }}">About Us</a>
+              <a href="{{ url_for('signup') }}">Signup</a>
+              <a href="{{ url_for('login') }}">Login</a>
+          </div>
+      </div>
+    </div>
+  
+
+    <!-- HEADER -->
+    <header class="main-header">
+      <div class="background-overlay text-white py-5">
+        <div class="container">
+          <div class="row d-flex h-100">
+            <div class="col-sm-6 text-center justify-content-center align-self-center">
+              <h1 class="headline">
+                Temukan Artikel Ilmiah Terkait Skripsi Anda dengan Cepat dan Akurat!
+              </h1>
+              <p class="subline">Dengan menggunakan algoritma BM25, kami menyajikan artikel-artikel yang paling relevan dengan topik skripsi Anda</p>
+               </div>
+            <div class="col-sm-6">
+              <img src="/static/5070388.jpg" class="img-fluid d-none d-sm-block">
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- About -->
+    <section class="about bg-light">
+      <div class="container1 text-center">
+        <div class="grid-2">
+          <div class="center">
+            <img src="/static/seo_1055645.png" class="img-fluid rounded-circle w-50">
+          </div>
+          <div>
+            <h3 class="title">Pencarian yang Tepat Sasaran</h3>
+            <p>
+              <span>Dapatkan artikel ilmiah yang sesuai dengan topik skripsi Anda secara akurat dan efisien. Algoritma BM25 yang kami gunakan memastikan bahwa setiap rekomendasi artikel relevan dengan fokus penelitian Anda.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container1 text-center">
+        <div class="grid-2">
+          <div>
+            <h3 class="title">Peningkatan Kualitas Penelitian</h3>
+            <p>
+              <span>Dengan akses mudah ke artikel ilmiah berkualitas tinggi, Anda dapat meningkatkan kualitas penelitian Anda. Temukan referensi yang relevan dan dapat dipercaya untuk mendukung argumen dan temuan Anda dalam skripsi Anda.</span></p>
+          </div>
+          <div class="center">
+            <img src="/static/check_10461004.png" class="img-fluid rounded-circle w-50">
+          </div>
+        </div>
+      </div>  
+    </section>
+
+    <section class="about bg-light">
+      <div class="container1 text-center">
+        <div class="grid-2">
+          <div class="center">
+            <img src="/static/clock_2997985.png" class="img-fluid rounded-circle w-50">
+          </div>
+          <div>
+            <h3 class="title">Efisiensi Waktu</h3>
+            <p>
+              <span>Hemat waktu Anda dengan menggunakan platform kami untuk mencari artikel ilmiah. Dibandingkan dengan metode pencarian tradisional yang memakan waktu, kami menyediakan solusi yang cepat dan efisien untuk menemukan sumber daya yang Anda butuhkan.</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ACCORDION -->
+    <section class="container text-center p-5">
+      <div class="center">
+        <div class="row">
+          <div class="accordion" id="accordionExample">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Term Frequency
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="center">
+                  <img src="/static/TermFreq.png" class="img-fluid w-50">
+                </div>
+                <div class="card-body">
+                  Term frequency (TF) berarti seberapa sering sebuah istilah muncul dalam sebuah dokumen. Dalam konteks bahasa alami, istilah berhubungan dengan kata atau frasa. Namun istilah juga dapat mewakili token apa pun dalam teks. Ini semua tentang bagaimana Anda mendefinisikannya. Frekuensi term biasanya digunakan dalam tugas-tugas Penambangan Teks, Pembelajaran Mesin, dan Pencarian Informasi.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Inverse Document Frequency
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="center">
+                  <img src="/static/idf.png" class="img-fluid w-50">
+                </div>
+                <div class="card-body">
+                  Inverse Document Frequency (IDF) adalah bobot yang menunjukkan seberapa sering sebuah kata digunakan. Semakin sering penggunaannya di seluruh dokumen, semakin rendah skornya. Semakin rendah skornya, semakin tidak penting kata tersebut.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Best Match 25
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="center">
+                  <img src="/static/bm25.png" class="img-fluid w-50">
+                </div>
+                <div class="card-body">
+                  BM25 bekerja dengan menghitung skor relevansi untuk setiap dokumen dalam koleksi mengenai kueri tertentu. Algoritme ini mempertimbangkan frekuensi istilah kueri dalam dokumen, panjang dokumen, dan panjang dokumen rata-rata di seluruh koleksi. Rumus ini melibatkan parameter tuning k1 dan b untuk mengontrol dampak dari frekuensi istilah dan normalisasi panjang dokumen.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                    Content Based Recommender
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="center">
+                  <img src="/static/kontenbased.png" class="img-fluid w-50">
+                </div>
+                <div class="card-body">
+                  Content-Based Recommender bekerja berdasarkan data yang kami ambil dari pengguna. Dengan data tersebut, kami membuat profil pengguna, yang kemudian digunakan untuk memberikan saran kepada pengguna, dan ketika pengguna memberikan lebih banyak masukan atau melakukan lebih banyak tindakan atas rekomendasi tersebut, mesin akan menjadi lebih akurat.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container p-3">
+        <div class="row text-center text-white">
+          <div class="col ml-auto">
+          <p>&copy; 2024 Sistem Rekomendasi Artikel Ilmiah</p>
+          </div>
+          <div class="ml-auto">
+            <a class="nav-link" href="{{ url_for('login_admin')}}">Admin</a>
+          </div>
+        </div>
+      </div>       
+    </footer>
+
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Pengguna</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 300px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Pengguna</h1>
+    <form method="post">
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" value="{{ pengguna.nama }}"><br>
+        <label for="npm">NPM:</label>
+        <input type="text" id="npm" name="npm" value="{{ pengguna.npm }}"><br>
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="{{ url_for('dashboard_pengguna') }}">Cancel</a>
+</body>
+</html>

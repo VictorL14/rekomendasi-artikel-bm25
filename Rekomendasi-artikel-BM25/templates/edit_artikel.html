@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Artikel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 300px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Artikel</h1>
+    <form method="post">
+        <label for="judul_awal">Judul Awal:</label>
+        <textarea id="judul_awal" name="judul_awal" rows="2">{{ artikel.judul_awal }}</textarea><br>
+        <label for="judul">Judul:</label>
+        <textarea id="judul" name="judul" rows="2">{{ artikel.judul }}</textarea><br>
+        <label for="abstrak">Abstrak:</label>
+        <textarea id="abstrak" name="abstrak" rows="4">{{ artikel.abstrak }}</textarea><br>
+        <label for="tahun">Tahun:</label>
+        <input type="text" id="tahun" name="tahun" value="{{ artikel.tahun }}"><br>
+        <label for="nama_penulis">Nama Penulis:</label>
+        <input type="text" id="nama_penulis" name="nama_penulis" value="{{ artikel.nama_penulis }}"><br>
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="{{ url_for('dashboard_artikel') }}">Cancel</a>
+</body>
+</html>

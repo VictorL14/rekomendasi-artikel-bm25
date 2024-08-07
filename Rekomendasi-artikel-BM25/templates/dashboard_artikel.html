@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .navbar .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .navbar .navbar-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar {
+            width: 210px;
+            background-color: #2c3e50;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+        }
+
+        .sidebar .sidebar-brand {
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .sidebar .sidebar-nav a {
+            padding: 10px 15px;
+        }
+
+        .sidebar .active {
+            background-color: #34495e;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .page-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #3498db;
+            margin-right: 5px;
+        }
+
+        .breadcrumb span {
+            margin-left: 5px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f8f8f8;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-warning {
+            background-color: #8000ff;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input[type="text"],
+        .search-bar input[type="file"],
+        .search-bar button[type="submit"] {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        .icon {
+            margin-right: 8px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+    
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+    
+        .pagination .page-item .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .pagination .page-item .page-link:hover {
+            color: #0056b3;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+    
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+    </style>
+
+    <script>
+        function confirmDelete(form) {
+            if (confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
+                form.submit();
+            }
+        }
+
+        function toggleAbstract(index) {
+            const shortAbstract = document.getElementById(`abstract-short-${index}`);
+            const fullAbstract = document.getElementById(`abstract-full-${index}`);
+            const readMore = document.getElementById(`read-more-${index}`);
+
+            if (shortAbstract.style.display === "none") {
+                shortAbstract.style.display = "inline";
+                fullAbstract.style.display = "none";
+                readMore.textContent = "selengkapnya...";
+            } else {
+                shortAbstract.style.display = "none";
+                fullAbstract.style.display = "inline";
+                readMore.textContent = "Tampilkan Lebih Sedikit";
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">E-Student</div>
+        <div class="navbar-toggle" id="navbar-toggle">
+            ☰
+        </div>
+        <div class="navbar-menu">
+            <form action="/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="sidebar-brand">Rekomendasi Cerdas BM25</a>
+        <nav class="sidebar-nav">
+            <a href="{{url_for('dashboard_admin')}}"><span class="icon">🏠</span> Dashboard</a>
+            <a href="{{url_for('dashboard_pengguna')}}"><span class="icon">👥</span> Pengguna</a>
+            <a href="{{url_for('dashboard_penilaian')}}"><span class="icon">🏢</span> Penilaian</a>
+            <a href="{{url_for('dashboard_artikel')}}" class="active"><span class="icon">📚</span> Artikel</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-title">
+                <h1>Manajemen Artikel</h1>
+            </div>
+
+            <div class="search-bar">
+                <form method="get" action="{{ url_for('dashboard_artikel') }}">
+                    <input type="text" name="search" placeholder="Cari judul artikel" value="{{ search_query }}">
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+                <form action="{{ url_for('upload_pdf') }}" method="post" enctype="multipart/form-data">
+                    <input type="file" id="file-input" name="file" required>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Judul Awal</th>
+                        <th>Judul</th>
+                        <th>Abstrak</th>
+                        <th>Tahun</th>
+                        <th>Nama Penulis</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in melihat_artikel %}
+                    <tr>
+                        <td>{{ (pagination.page - 1) * pagination.per_page + loop.index }}</td>
+                        <td>{{ article.judul_awal }}</td>
+                        <td>{{ article.judul }}</td>
+                        <td>
+                            <span class="abstract-short" id="abstract-short-{{ loop.index }}">{{ article.abstrak[:100] }}...</span>
+                            <span class="abstract-full" id="abstract-full-{{ loop.index }}" style="display: none;">{{ article.abstrak }}</span>
+                            <a href="javascript:void(0);" id="read-more-{{ loop.index }}" onclick="toggleAbstract({{ loop.index }})">selengkapnya...</a>
+                        </td>
+                        <td>{{ article.tahun }}</td>
+                        <td>{{ article.nama_penulis }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_artikel', id=article.id) }}" class="btn btn-warning">Edit</a> |
+                            <form method="post" action="{{ url_for('delete_artikel', id=article.id) }}" style="display:inline;" onsubmit="event.preventDefault(); confirmDelete(this);">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            
+
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if pagination.page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('dashboard_artikel', page=pagination.page - 1, search=search_query) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>
+                    {% endif %}
+            
+                    {% if pagination.page > 2 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('dashboard_artikel', search=search_query, page=1) }}">1</a>
+                    </li>
+                    {% if pagination.page > 3 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+            
+                    {% for p in range(max(1, pagination.page - 1), min(pagination.page + 2, pagination.total_pages + 1)) %}
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('dashboard_artikel', search=search_query, page=p) }}">{{ p }}</a>
+                    </li>
+                    {% endfor %}
+            
+                    {% if pagination.page < pagination.total_pages - 1 %}
+                    {% if pagination.page < pagination.total_pages - 2 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    {% endif %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('dashboard_artikel', search=search_query, page=pagination.total_pages) }}">{{ pagination.total_pages }}</a>
+                    </li>
+                    {% endif %}
+            
+                    {% if pagination.page < pagination.total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('dashboard_artikel', page=pagination.page + 1, search=search_query) }}" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            
+
+        </div>
+        
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
